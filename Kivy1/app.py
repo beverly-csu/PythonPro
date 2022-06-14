@@ -31,6 +31,13 @@ class MainScreen(Screen):                                                       
         self.add_widget(h_layout)
 
 
+class FirstScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        v_layout = BoxLayout(orientation='vertical', size_hint=(0.5, 0.5), pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        btn = Button(text="Выбор: 1", size_hint=(0.5, 1), pos_hint={'left': 0})
+
+
 class MyApp(App):                                                               # создаем класс-наследник класса App
     def build(self):                                                            # переопределяем метод build
         sm = ScreenManager()                                                    # создаем экземпляр класса ScreenManager()
