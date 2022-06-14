@@ -11,9 +11,9 @@ class ScrButton(Button):                                                        
         self.screen = screen                                                    # поле с объектом класса ScreenManager
         self.direction = direction                                              # поле, описывающее вид перехода от окна к окну
         self.goal = goal                                                        # поле, хранящее название окна, к которому будет совершен переход
-    def on_press(self):
-        self.screen.manager.transition.direction = self.direction
-        self.screen.manager.current = self.goal
+    def on_press(self):                                                         # функция, которая обрабатывает нажатие на кнопку
+        self.screen.manager.transition.direction = self.direction               # устанавливаем вид перехода
+        self.screen.manager.current = self.goal                                 # устанавливаем на какой экран нам надо переместиться
 
 
 class MainScreen(Screen):                                                       # создаем класс-наследник класса Screen
@@ -22,10 +22,19 @@ class MainScreen(Screen):                                                       
         v_layout = BoxLayout(orientation='vertical', padding=8, spacing=8)
         h_layout = BoxLayout()
         txt = Label(text='Выбери экран')
+        v_layout.add_widget(ScrButton(self, direction='down', goal='first', text='1'))
+        v_layout.add_widget(ScrButton(self, direction='left', goal='second', text='2'))
+        v_layout.add_widget(ScrButton(self, direction='up', goal='third', text='3'))
+        v_layout.add_widget(ScrButton(self, direction='right', goal='fourth', text='4'))
+        h_layout.add_widget(txt)
+        h_layout.add_widget(v_layout)
+        self.add_widget(h_layout)
+
 
 class MyApp(App):                                                               # создаем класс-наследник класса App
     def build(self):                                                            # переопределяем метод build
         sm = ScreenManager()                                                    # создаем экземпляр класса ScreenManager()
+        sm.add_widget(MainScreen(name='main'))
         return sm                                                               # возвращаем наш экземпляр
 
 
