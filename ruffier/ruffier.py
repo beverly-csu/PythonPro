@@ -60,7 +60,18 @@ def ruffier_result(r_index, level):
     ''' функция получает индекс Руфье и интерпретирует его, 
     возвращает уровень готовности: число от 0 до 4
     (чем выше уровень готовности, тем лучше).  '''
-    pass
+    if r_index >= level:
+        return 0
+    level -= 4
+    if r_index >= level:
+        return 1
+    level -= 5
+    if r_index >= level:
+        return 2
+    level -= 5.5
+    if r_index >= level:
+        return 3
+    return 4
 
 def test(P1, P2, P3, age):
     ''' эту функцию можно использовать снаружи модуля для подсчетов индекса Руфье.
