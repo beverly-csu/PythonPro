@@ -67,12 +67,27 @@ class PulseScr(Screen):
         global p1
         p1 = int(self.in_result.text)
         self.manager.current = 'sits'
+        
+
+class CheckSits(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        instr = Label(text=txt_sits)
+        self.btn = Button(text='Продолжить', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+        self.btn.on_press = self.next
+        outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+        outer.add_widget(instr)
+        outer.add_widget(self.btn)
+        self.add_widget(outer)
+    def next(self):
+        self.manager.current = 'pulse2'
 
 class HeartCheck(App):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(InstrScreen(name="instr"))
         sm.add_widget(PulseScr(name='pulse1'))
+        sm.add_widget(CheckSits(name="sits"))
         return sm
 
 # первый вариант
