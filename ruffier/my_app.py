@@ -120,6 +120,7 @@ class HeartCheck(App):
         sm.add_widget(InstrScreen(name="instr"))
         sm.add_widget(PulseScr(name='pulse1'))
         sm.add_widget(CheckSits(name="sits"))
+        sm.add_widget(PulseScr2(name='pulse2'))
         return sm
 
 # первый вариант
