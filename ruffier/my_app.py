@@ -7,6 +7,7 @@ from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from instructions import *
+from ruffier import *
 
 age = 7
 name = str()
@@ -114,6 +115,20 @@ class PulseScr2(Screen):
         p3 = int(self.in_result2.text)
         self.manager.current = 'result'
 
+class Result(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
+        self.instr = Label(text = '')
+        self.outer.add_widget(self.instr)
+        self.add_widget(self.outer)
+        self.on_enter = self.before
+
+    def before(self):
+        global name
+        self.instr.text = name + '\n' + test(p1, p2, p3, age)
+
+
 class HeartCheck(App):
     def build(self):
         sm = ScreenManager()
@@ -121,6 +136,7 @@ class HeartCheck(App):
         sm.add_widget(PulseScr(name='pulse1'))
         sm.add_widget(CheckSits(name="sits"))
         sm.add_widget(PulseScr2(name='pulse2'))
+        sm.add_widget(Result(name='result'))
         return sm
 
 # первый вариант
