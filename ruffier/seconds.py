@@ -16,7 +16,7 @@ class Seconds(Label):
         pass
 
     def start(self):
-        pass
+        Clock.schedule_interval(self.change, 1)
 
     def change(self, dt):
         pass
