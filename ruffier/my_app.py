@@ -77,8 +77,12 @@ class PulseScr(Screen):
         self.add_widget(outer)
     def next(self):
         global p1
-        p1 = int(self.in_result.text)
-        self.manager.current = 'sits'
+        p1 = check_int(self.in_result.text)
+        if p1 == False or p1 < 0:
+            p1 = 0
+            self.in_result.text = str(p1)
+        else:
+            self.manager.current = 'sits'
         
 
 class CheckSits(Screen):
@@ -93,6 +97,7 @@ class CheckSits(Screen):
         self.add_widget(outer)
     def next(self):
         self.manager.current = 'pulse2'
+        
 
 
 class PulseScr2(Screen):
@@ -154,4 +159,4 @@ class HeartCheck(App):
 app = HeartCheck()
 app.run()
 # второй вариант
-HeartCheck().run()
+# HeartCheck().run()
