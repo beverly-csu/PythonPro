@@ -1,5 +1,4 @@
 #не забудь импортировать необходимые элементы!
-from re import MULTILINE
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
@@ -12,6 +11,13 @@ from ruffier import *
 age = 7
 name = str()
 p1, p2, p3 = 0, 0, 0
+
+
+def check_int(str_num):
+    try:
+        return int(str_num)
+    except:
+        return False
 
 
 class InstrScreen(Screen):
@@ -43,9 +49,14 @@ class InstrScreen(Screen):
         self.add_widget(outer)
 
     def next(self):
-        global name
+        global name, age
         name = self.input_name.text
-        self.manager.current = "pulse1"
+        age = check_int(self.input_age.text)
+        if age == False or age < 7:
+            age = 7
+            self.input_age.text = str(age)
+        else:
+            self.manager.current = "pulse1"
 
 class PulseScr(Screen):
     def __init__(self, **kwargs):
