@@ -127,9 +127,16 @@ class PulseScr2(Screen):
         self.add_widget(outer)
     def next(self):
         global p2, p3
-        p2 = int(self.in_result1.text)
-        p3 = int(self.in_result2.text)
-        self.manager.current = 'result'
+        p2 = check_int(self.in_result1.text)
+        p3 = check_int(self.in_result2.text)
+        if p2 == False or p2 < 0:
+            p2 = 0
+            self.in_result1.text = str(p2)
+        elif p3 == False or p3 < 0:
+            p3 = 0
+            self.in_result2.text = str(p3)
+        else:
+            self.manager.current = 'result'
 
 class Result(Screen):
     def __init__(self, **kwargs):
