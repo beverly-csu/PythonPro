@@ -145,7 +145,6 @@ class PulseScr2(Screen):
 
         self.btn = Button(text='Начать', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})          ###
         self.btn.on_press = self.next
-        self.btn.set_disabled(True)                     ###
 
         outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
         outer.add_widget(instr)
@@ -172,17 +171,21 @@ class PulseScr2(Screen):
                 self.btn.text = 'Завершить'             ### даем возможность записать последний результат
                 self.next_screen = True                 ###
     def next(self):
-        global p2, p3
-        p2 = check_int(self.in_result1.text)
-        p3 = check_int(self.in_result2.text)
-        if p2 == False or p2 < 0:
-            p2 = 0
-            self.in_result1.text = str(p2)
-        elif p3 == False or p3 < 0:
-            p3 = 0
-            self.in_result2.text = str(p3)
+        if not self.next_screen:
+            self.btn.set_disabled(True)
+            self.lbl_sec.start()
         else:
-            self.manager.current = 'result'
+            global p2, p3
+            p2 = check_int(self.in_result1.text)
+            p3 = check_int(self.in_result2.text)
+            if p2 == False or p2 < 0:
+                p2 = 0
+                self.in_result1.text = str(p2)
+            elif p3 == False or p3 < 0:
+                p3 = 0
+                self.in_result2.text = str(p3)
+            else:
+                self.manager.current = 'result'
 
 class Result(Screen):
     def __init__(self, **kwargs):
