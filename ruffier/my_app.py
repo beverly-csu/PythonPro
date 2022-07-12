@@ -143,17 +143,34 @@ class PulseScr2(Screen):
         self.in_result1.set_disabled(True)              ###
         self.in_result2.set_disabled(True)              ###
 
-        self.btn = Button(text='Завершить', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+        self.btn = Button(text='Начать', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})          ###
         self.btn.on_press = self.next
+        self.btn.set_disabled(True)                     ###
 
         outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
         outer.add_widget(instr)
-        outer.add_widget(self.lbl1)         ###
-        outer.add_widget(self.lbl_sec)      ###
+        outer.add_widget(self.lbl1)                     ###
+        outer.add_widget(self.lbl_sec)                  ###
         outer.add_widget(line1)
         outer.add_widget(line2)
         outer.add_widget(self.btn)
         self.add_widget(outer)
+    def sec_finished(self, *args):                      ###
+        if self.lbl_sec.done:                           ###
+            if self.stage == 0:                         ### 
+                self.stage = 1                          ### закончили первый 
+                self.lbl1.text = 'Отдыхайте'            ### подсчет и настало
+                self.lbl_sec.restart(30)                ### время отдохнуть
+                self.in_result1.set_disabled(False)     ### 
+            elif self.stage == 1:                       ### 
+                self.stage = 2                          ### закончили отдых и
+                self.lbl1.text = 'Считайте пульс'       ### пора считать пульс
+                self.lbl_sec.restart(15)                ### 
+            elif self.stage == 2:                       ###
+                self.in_result2.set_disabled(False)     ###
+                self.btn.set_disabled(False)            ### замеры произведены
+                self.btn.text = 'Завершить'             ### даем возможность записать последний результат
+                self.next_screen = True                 ###
     def next(self):
         global p2, p3
         p2 = check_int(self.in_result1.text)
