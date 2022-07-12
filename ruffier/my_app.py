@@ -71,6 +71,7 @@ class PulseScr(Screen):
         line = BoxLayout(size_hint=(0.8, None), height='30sp')
         lbl_result = Label(text="Введите результат:", halign='right')
         self.in_result = TextInput(text='0', multiline=False)
+        self.in_result.set_disabled(True)               ###
         line.add_widget(lbl_result)
         line.add_widget(self.in_result)
         self.btn = Button(text='Начать', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})      ###
@@ -87,13 +88,17 @@ class PulseScr(Screen):
         self.btn.set_disabled(False)                        ###
         self.btn.text = 'Продолжить'                        ###
     def next(self):
-        global p1
-        p1 = check_int(self.in_result.text)
-        if p1 == False or p1 < 0:
-            p1 = 0
-            self.in_result.text = str(p1)
-        else:
-            self.manager.current = 'sits'
+        if not self.next_screen:                            ###
+            self.btn.set_disabled(True)                     ###
+            self.lbl_sec.start()                            ###
+        else:                                               ###
+            global p1
+            p1 = check_int(self.in_result.text)
+            if p1 == False or p1 < 0:
+                p1 = 0
+                self.in_result.text = str(p1)
+            else:
+                self.manager.current = 'sits'
         
 
 class CheckSits(Screen):
