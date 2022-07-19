@@ -10,3 +10,6 @@ class Sits(Label):
 
     def next(self, *args):
         self.current += 1
+        remain = self.total - self.current
+        my_text = 'Осталось приседаний: ' + str(remain)
+        self.text = my_text
