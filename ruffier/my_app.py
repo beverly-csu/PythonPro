@@ -30,7 +30,7 @@ def check_int(str_num):
 class InstrScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        instruction = Label(text=txt_instruction)
+        instruction = Label(text=txt_instruction, markup=True)
 
         lbl_name = Label(text="Введите имя:", halign="right")
         self.input_name = TextInput(multiline=False)
