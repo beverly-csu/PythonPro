@@ -20,3 +20,13 @@ class Runner(BoxLayout):
         self.animation.on_progress = self.next
         self.btn = Button(size_hint=(1, 0.1), pos_hint={'top': 1.0}, background_color=bcolor)
         self.add_widget(self.btn)
+    
+    def start(self):
+        self.value = 0
+
+    def next(self, widget, step):
+        if step == 1.0:
+            self.value += 1
+            if self.value >= self.total:
+                self.animation.repeat = False
+                self.finished = True
