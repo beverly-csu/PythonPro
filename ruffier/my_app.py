@@ -1,13 +1,19 @@
-#не забудь импортировать необходимые элементы!
+# не забудь импортировать необходимые элементы!
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
+from kivy.core.window import Window
 from instructions import *
 from ruffier import *
 from seconds import Seconds
+
+
+# Window.clearcolor = (0.87, 0.54, 0.8, 0.3)
+Window.clearcolor = (0/255, 41/255, 119/255, 0.8)
+btn_color = (57/255, 110/255, 210/255, 1)
 
 age = 7
 name = str()
@@ -33,11 +39,12 @@ class InstrScreen(Screen):
         self.input_age = TextInput(text="7", multiline=False)
 
         self.btn = Button(text="Начать", size_hint=(0.3, 0.2), pos_hint={"center_x": 0.5})
+        self.btn.background_color = btn_color
         self.btn.on_press = self.next
 
         line1 = BoxLayout(size_hint=(0.8, None), height="30sp")
         line2 = BoxLayout(size_hint=(0.8, None), height='30sp')
-        
+
         line1.add_widget(lbl_name)
         line1.add_widget(self.input_name)
         line2.add_widget(lbl_age)
@@ -59,39 +66,43 @@ class InstrScreen(Screen):
         else:
             self.manager.current = "pulse1"
 
+
 class PulseScr(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.next_screen = False                        ###
+        self.next_screen = False
 
         instr = Label(text=txt_test1)
-        self.lbl_sec = Seconds(15)                      ###
-        self.lbl_sec.bind(done=self.sec_finished)       ###
+        self.lbl_sec = Seconds(15)
+        self.lbl_sec.bind(done=self.sec_finished)
 
         line = BoxLayout(size_hint=(0.8, None), height='30sp')
         lbl_result = Label(text="Введите результат:", halign='right')
         self.in_result = TextInput(text='0', multiline=False)
-        self.in_result.set_disabled(True)               ###
+        self.in_result.set_disabled(True)
         line.add_widget(lbl_result)
         line.add_widget(self.in_result)
-        self.btn = Button(text='Начать', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})      ###
+        self.btn = Button(text='Начать', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+        self.btn.background_color = btn_color
         self.btn.on_press = self.next
         outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
         outer.add_widget(instr)
-        outer.add_widget(self.lbl_sec)          ###
+        outer.add_widget(self.lbl_sec)
         outer.add_widget(line)
         outer.add_widget(self.btn)
         self.add_widget(outer)
-    def sec_finished(self, *args):                          ###
-        self.next_screen = True                             ###
-        self.in_result.set_disabled(False)                  ###
-        self.btn.set_disabled(False)                        ###
-        self.btn.text = 'Продолжить'                        ###
+
+    def sec_finished(self, *args):
+        self.next_screen = True
+        self.in_result.set_disabled(False)
+        self.btn.set_disabled(False)
+        self.btn.text = 'Продолжить'
+
     def next(self):
-        if not self.next_screen:                            ###
-            self.btn.set_disabled(True)                     ###
-            self.lbl_sec.start()                            ###
-        else:                                               ###
+        if not self.next_screen:
+            self.btn.set_disabled(True)
+            self.lbl_sec.start()
+        else:
             global p1
             p1 = check_int(self.in_result.text)
             if p1 == False or p1 < 0:
@@ -99,36 +110,37 @@ class PulseScr(Screen):
                 self.in_result.text = str(p1)
             else:
                 self.manager.current = 'sits'
-        
+
 
 class CheckSits(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         instr = Label(text=txt_sits)
         self.btn = Button(text='Продолжить', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+        self.btn.background_color = btn_color
         self.btn.on_press = self.next
         outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
         outer.add_widget(instr)
         outer.add_widget(self.btn)
         self.add_widget(outer)
+
     def next(self):
         self.manager.current = 'pulse2'
-        
 
 
 class PulseScr2(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.next_screen = False        ###
-        self.stage = 0                  ###
+        self.next_screen = False
+        self.stage = 0
 
         instr = Label(text=txt_test3)
         line1 = BoxLayout(size_hint=(0.8, None), height='30sp')
-        
-        self.lbl_sec = Seconds(15)                      ###
-        self.lbl_sec.bind(done=self.sec_finished)       ###
-        self.lbl1 = Label(text="Считайте пульс")        ###
-        
+
+        self.lbl_sec = Seconds(15)
+        self.lbl_sec.bind(done=self.sec_finished)
+        self.lbl1 = Label(text="Считайте пульс")
+
         lbl_result1 = Label(text="Результат:", halign='right')
         self.in_result1 = TextInput(text='0', multiline=False)
         line1.add_widget(lbl_result1)
@@ -140,36 +152,39 @@ class PulseScr2(Screen):
         line1.add_widget(lbl_result2)
         line1.add_widget(self.in_result2)
 
-        self.in_result1.set_disabled(True)              ###
-        self.in_result2.set_disabled(True)              ###
+        self.in_result1.set_disabled(True)
+        self.in_result2.set_disabled(True)
 
-        self.btn = Button(text='Начать', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})          ###
+        self.btn = Button(text='Начать', size_hint=(0.3, 0.2), pos_hint={'center_x': 0.5})
+        self.btn.background_color = btn_color
         self.btn.on_press = self.next
 
         outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
         outer.add_widget(instr)
-        outer.add_widget(self.lbl1)                     ###
-        outer.add_widget(self.lbl_sec)                  ###
+        outer.add_widget(self.lbl1)
+        outer.add_widget(self.lbl_sec)
         outer.add_widget(line1)
         outer.add_widget(line2)
         outer.add_widget(self.btn)
         self.add_widget(outer)
-    def sec_finished(self, *args):                      ###
-        if self.lbl_sec.done:                           ###
-            if self.stage == 0:                         ### 
-                self.stage = 1                          ### закончили первый 
-                self.lbl1.text = 'Отдыхайте'            ### подсчет и настало
-                self.lbl_sec.restart(30)                ### время отдохнуть
-                self.in_result1.set_disabled(False)     ### 
-            elif self.stage == 1:                       ### 
-                self.stage = 2                          ### закончили отдых и
-                self.lbl1.text = 'Считайте пульс'       ### пора считать пульс
-                self.lbl_sec.restart(15)                ### 
-            elif self.stage == 2:                       ###
-                self.in_result2.set_disabled(False)     ###
-                self.btn.set_disabled(False)            ### замеры произведены
-                self.btn.text = 'Завершить'             ### даем возможность записать последний результат
-                self.next_screen = True                 ###
+
+    def sec_finished(self, *args):
+        if self.lbl_sec.done:
+            if self.stage == 0:
+                self.stage = 1  # закончили первый
+                self.lbl1.text = 'Отдыхайте'  # подсчет и настало
+                self.lbl_sec.restart(30)  # время отдохнуть
+                self.in_result1.set_disabled(False)
+            elif self.stage == 1:
+                self.stage = 2  # закончили отдых и
+                self.lbl1.text = 'Считайте пульс'  # пора считать пульс
+                self.lbl_sec.restart(15)
+            elif self.stage == 2:
+                self.in_result2.set_disabled(False)
+                self.btn.set_disabled(False)  # замеры произведены
+                self.btn.text = 'Завершить'  # даем возможность записать последний результат
+                self.next_screen = True
+
     def next(self):
         if not self.next_screen:
             self.btn.set_disabled(True)
@@ -187,11 +202,12 @@ class PulseScr2(Screen):
             else:
                 self.manager.current = 'result'
 
+
 class Result(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.outer = BoxLayout(orientation='vertical', padding=8, spacing=8)
-        self.instr = Label(text = '')
+        self.instr = Label(text='')
         self.outer.add_widget(self.instr)
         self.add_widget(self.outer)
         self.on_enter = self.before
@@ -210,6 +226,7 @@ class HeartCheck(App):
         sm.add_widget(PulseScr2(name='pulse2'))
         sm.add_widget(Result(name='result'))
         return sm
+
 
 # первый вариант
 app = HeartCheck()
